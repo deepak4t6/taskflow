@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # Updated README with endpoints
+=======
+>>>>>>> 00de1b80adf6a4d06eda04af1ba0d68cdac9d130
 # TaskFlow — Dark-Store Engineering Task Management Platform
 
 TaskFlow is a full-stack, relational task management application designed for dark-store operations engineering pods. It features a FastAPI + SQLAlchemy backend, a responsive Vanilla JS dashboard with glassmorphism UI, a hand-rolled algorithms engine for sorting and searching, and an AI-assisted quick-add parser that converts plain English descriptions into structured database tasks.

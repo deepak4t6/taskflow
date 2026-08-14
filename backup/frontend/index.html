@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow — Dark-Store Engineering Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sticky Glassmorphism Header Bar -->
+    <header class="navbar sticky-header">
+      <div class="nav-brand">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-name">TaskFlow</h1>
+          <span class="brand-tag">Blinkit Dark-Store Ops Engineering</span>
+        </div>
+      </div>
+
+      <div class="nav-status">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span class="status-text">FastAPI Backend Connected</span>
+        </div>
+      </div>
+
+      <div class="nav-user-control">
+        <div class="user-box">
+          <label for="user-select" class="user-label">Active Pod User:</label>
+          <select id="user-select" class="custom-select">
+            <option value="">Loading users...</option>
+          </select>
+        </div>
+        <button id="new-user-btn" class="btn btn-sm btn-glass">+ New User</button>
+      </div>
+    </header>
+
+    <!-- App Main Body Layout -->
+    <div class="app-body">
+      <!-- Left Sidebar: Projects & SQL Analytics -->
+      <aside class="sidebar">
+        <!-- Projects Management Card -->
+        <div class="glass-card sidebar-card">
+          <div class="card-title-row">
+            <div class="title-with-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+              <h2>Projects</h2>
+            </div>
+            <button id="new-project-btn" class="btn btn-xs btn-accent">+ Project</button>
+          </div>
+          <ul id="project-list" class="project-nav-list">
+            <!-- Dynamically rendered -->
+          </ul>
+        </div>
+
+        <!-- SQL Aggregate Statistics Card -->
+        <div class="glass-card stats-card" id="stats-panel">
+          <div class="card-title-row">
+            <div class="title-with-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              <h2>SQL Analytics</h2>
+            </div>
+            <span class="badge badge-tech">GROUP BY SQL</span>
+          </div>
+          <div id="stats-content" class="stats-content-area">
+            <p class="empty-state-text">Select a project to load real-time SQL aggregate statistics.</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Workspace -->
+      <main class="main-workspace">
+        <!-- AI Quick-Add Section (Section 3 NLP Feature) -->
+        <section class="glass-card quick-add-section">
+          <div class="section-header">
+            <div class="title-with-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              <h2>AI Quick-Add Task Parser</h2>
+            </div>
+            <span class="badge badge-ai">Section 3 Zero-Shot NLP Engine</span>
+          </div>
+
+          <form id="quick-add-form" class="quick-add-bar">
+            <div class="input-wrapper">
+              <span class="input-icon">✨</span>
+              <input type="text" id="quick-add-input" class="form-input quick-input" placeholder="e.g. 'Calibrate conveyor belt sensors ASAP tomorrow'" required>
+            </div>
+            <button type="submit" id="quick-add-btn" class="btn btn-ai">
+              <span>Quick-Add Task</span>
+            </button>
+          </form>
+          <div class="prompt-chips">
+            <span class="chip-label">Try example:</span>
+            <button type="button" class="prompt-chip" data-text="Fix darkstore inventory scanner ASAP tomorrow">"Fix scanner ASAP tomorrow"</button>
+            <button type="button" class="prompt-chip" data-text="Clean battery storage area whenever you can next Friday">"Clean battery storage whenever next Friday"</button>
+          </div>
+        </section>
+
+        <!-- Structured Task Creation Form -->
+        <section class="glass-card task-creation-section">
+          <div class="section-header">
+            <div class="title-with-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+              <h2>Create Structured Task</h2>
+            </div>
+          </div>
+
+          <form id="add-task-form" class="structured-form">
+            <div class="form-row-full">
+              <div class="field-group">
+                <label for="task-title-input" class="field-label">Task Title <span class="required-star">*</span></label>
+                <input type="text" id="task-title-input" class="form-input" placeholder="e.g. Audit cold storage temperature logs">
+                <span id="title-error-msg" class="inline-error"></span>
+              </div>
+            </div>
+
+            <div class="form-grid-4">
+              <div class="field-group">
+                <label for="task-priority-select" class="field-label">Priority</label>
+                <select id="task-priority-select" class="custom-select">
+                  <option value="low">Low Priority</option>
+                  <option value="medium" selected>Medium Priority</option>
+                  <option value="high">High Priority</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="task-status-select" class="field-label">Status</label>
+                <select id="task-status-select" class="custom-select">
+                  <option value="todo" selected>To-Do</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="done">Done</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="task-due-input" class="field-label">Due Date / Hint</label>
+                <input type="text" id="task-due-input" class="form-input" placeholder="e.g. 2026-08-15 or 'next friday'">
+              </div>
+
+              <div class="field-group">
+                <label for="task-project-select" class="field-label">Target Project <span class="required-star">*</span></label>
+                <select id="task-project-select" class="custom-select">
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-full">
+              <div class="field-group">
+                <label for="task-desc-input" class="field-label">Description (Optional)</label>
+                <textarea id="task-desc-input" class="form-textarea" rows="2" placeholder="Additional details or engineering specifications..."></textarea>
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <button type="submit" id="submit-task-btn" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                <span>Save Structured Task</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Task Toolbar (Filter, Search & Insertion Sort) -->
+        <section class="glass-card toolbar-section">
+          <div class="toolbar-flex">
+            <div class="filter-controls">
+              <div class="control-unit">
+                <label for="sort-select" class="unit-label">Engine Sort:</label>
+                <select id="sort-select" class="custom-select select-sm">
+                  <option value="">Database Default</option>
+                  <option value="priority">Priority (Insertion Sort)</option>
+                  <option value="due_date">Due Date (Insertion Sort)</option>
+                </select>
+              </div>
+
+              <div class="control-unit">
+                <label for="filter-status" class="unit-label">Status Filter:</label>
+                <select id="filter-status" class="custom-select select-sm">
+                  <option value="">All Statuses</option>
+                  <option value="todo">To-Do</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="done">Done</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="search-controls">
+              <div class="search-input-group">
+                <input type="text" id="search-title-input" class="form-input input-sm" placeholder="Exact task title...">
+                <select id="search-algo-select" class="custom-select select-sm">
+                  <option value="binary">Binary Search</option>
+                  <option value="linear">Linear Search</option>
+                </select>
+                <button id="search-btn" class="btn btn-sm btn-secondary">Search</button>
+                <button id="clear-search-btn" class="btn btn-sm btn-ghost">Reset</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Task Backlog Container -->
+        <section class="glass-card backlog-section">
+          <div class="section-header">
+            <div class="title-with-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              <h2>Task Backlog</h2>
+            </div>
+            <span id="task-count-badge" class="badge badge-count">0 tasks</span>
+          </div>
+
+          <div id="task-list-container" class="task-list-container">
+            <!-- Dynamic task items rendered safely via JavaScript -->
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- User Modal -->
+  <div id="user-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Create New Pod User</h3>
+        <button class="modal-close" id="close-user-modal">&times;</button>
+      </div>
+      <form id="user-form" class="modal-form">
+        <div class="field-group">
+          <label for="user-name-input" class="field-label">Full Name</label>
+          <input type="text" id="user-name-input" class="form-input" required placeholder="e.g. Deepak Gupta">
+        </div>
+        <div class="field-group">
+          <label for="user-email-input" class="field-label">Email Address</label>
+          <input type="email" id="user-email-input" class="form-input" required placeholder="e.g. deepak@blinkit.com">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary full-width">Create User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div id="project-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Create New Engineering Project</h3>
+        <button class="modal-close" id="close-project-modal">&times;</button>
+      </div>
+      <form id="project-form" class="modal-form">
+        <div class="field-group">
+          <label for="project-title-input" class="field-label">Project Title</label>
+          <input type="text" id="project-title-input" class="form-input" required placeholder="e.g. Cold Storage Operations">
+        </div>
+        <div class="field-group">
+          <label for="project-desc-input" class="field-label">Description</label>
+          <textarea id="project-desc-input" class="form-textarea" rows="3" placeholder="Project engineering goals..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary full-width">Create Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
